@@ -6,62 +6,51 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:42 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/11 21:42:29 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/13 21:43:38 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	**ft_m_putchar(char ***c, const char ***s, int **count)
+int *ft_printf_helper(va_list args, const char **format, int *count)
 {
-	write(1, &c, 1);
-    (count)++;
-    (**s)++;
-    return (count);
-}
-
-int *ft_printf_helper(va_list args, const char **s, int *count)
-{
-    (*s)++;
-        if (**s == 'c')
-            ft_m_putchar(va_arg(args, char ***), &s, &count);
- /*     if (*s == 's')
-            ft_m_putstr(va_arg(args, char *), &s, &count);
-        if (*s == 'p')
+    (*format)++;
+        if (**format == 'c')
+            ft_m_putchar((char)va_arg(args, int), count);
+        else if (**format == 's')
+            ft_m_putstr(va_arg(args, char *), format, count);
+ /*     else if (**format == 'p')
             ft_putvoid(va_arg(args, void *), &s, &count); // ???
-        if (*s == 'd')
-            ft_putdecimal(va_arg(args, int *), &s, &count); // What? and ???
-        if (*s == 'i')
-            ft_m_putnbr(va_arg(args, int *), &s, &count); // What? and ???
-        if (*s == 'u')
+        else if (**format == 'd')
+            ft_putdecimal(va_arg(args, int *), &s, &count); // What? and ???  */
+        else if (**format == 'i')
+            ft_m_putnbr(va_arg(args, int), format, count);
+ /*       else if (**format == 'u')
             ft_putunsdecimal(va_arg(args, int *), &s, &count); // What? and ???
-        if (*s == 'x')
+        else if (**format == 'x')
             ft_puthexal(va_arg(args, int *), &s, &count); // What? and ???
-        if (*s == 'X')
-            ft_puthexau(va_arg(args, int *), &s, &count); // What? and ???
-        if (*s == '%')
-            ft_putchar(va_arg(args, char *), &s, &count); */
+        else if (**format == 'X')
+            ft_puthexau(va_arg(args, int *), &s, &count); // What? and ??? */
+        else if (**format == '%')
+            ft_m_putchar('%', count);
     return(count);
 }
 
-int ft_printf(const char *s, ...)
+int ft_printf(const char *format, ...)
 {
     va_list args;
     int     count;
     
     count = 0;
-    va_start(args, s);
-    while (*s)
+    va_start(args, format);
+    while (*format)
     {
-        if (*s == '%')
-        {
-            ft_printf_helper(args, &s, &count);
-            count++;
-        }
+        if (*format == '%')
+            ft_printf_helper(args, &format, &count);
         else
         {
-            write(1, s, 1);
-            s++;
+            write(1, format, 1);
+            format++;
             count++;
         }
     }
@@ -76,9 +65,8 @@ int main(void)
 {
     int resultado;
     
-    resultado = ft_printf("hello123%c", 'a');
+    resultado = ft_printf("hello123%c56%s%%b%iabc", 'a', "Hola", 4561652);
     printf("\n%i", resultado);
-    /* printf("%i", ft_printf("123%c", 'z')); */
     return (0);
 }
 
