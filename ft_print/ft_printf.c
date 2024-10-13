@@ -6,7 +6,7 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:42 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/13 21:43:38 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/13 22:08:08 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int main(void)
 {
     int resultado;
     
-    resultado = ft_printf("hello123%c56%s%%b%iabc", 'a', "Hola", 4561652);
+    resultado = ft_printf("hello123%c56%s%%b%iabc", 'a', "Hola", -42123);
     printf("\n%i", resultado);
     return (0);
 }
