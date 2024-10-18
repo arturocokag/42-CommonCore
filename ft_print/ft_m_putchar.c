@@ -6,15 +6,16 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:45:51 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/13 22:15:06 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/17 16:49:51 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_m_putchar(char c, int *count)
+int	ft_m_putchar(char c, const char **format, int *count)
 {
 	write(1, &c, 1);
     (*count)++;
+    (*format)++;
     return (*count);
 }
