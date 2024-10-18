@@ -6,7 +6,7 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 20:45:51 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/17 16:49:51 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:25:28 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_m_putchar(char c, const char **format, int *count)
 {
 	write(1, &c, 1);
-    (*count)++;
-    (*format)++;
-    return (*count);
+	(*count)++;
+	(*format)++;
+	return (*count);
 }

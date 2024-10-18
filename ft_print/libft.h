@@ -6,7 +6,7 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:28:38 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/17 16:52:43 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/18 20:26:03 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 // Aditional for ft_printf:
-# include <stdarg.h>
 # include <inttypes.h>
+# include <stdarg.h>
 
 // ft_is functions:
 int		ft_isalpha(int c);
@@ -72,10 +72,10 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 
 // ft_printf.c and helpers:
-int ft_printf(const char *format, ...);
-int	ft_m_putchar(char c, const char **format, int *count);
-int ft_m_putnbr(int n, const char **format, int *count);
-int	ft_m_putstr(char *s, const char **format, int *count);
-int ft_putunsdecimal(unsigned int n, const char **format, int *count);
+int		ft_printf(const char *format, ...);
+int		ft_m_putchar(char c, const char **format, int *count);
+int		ft_m_putnbr(int n, const char **format, int *count);
+int		ft_m_putstr(char *s, const char **format, int *count);
+int		ft_putunsdecimal(unsigned int n, const char **format, int *count);
 
 #endif
