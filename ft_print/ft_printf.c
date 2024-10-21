@@ -6,7 +6,7 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:42 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/18 20:25:33 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:28:28 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int	*ft_printf_helper(va_list args, const char **format, int *count)
 		ft_m_putstr(va_arg(args, char *), format, count);
 	/*    else if (**format == 'p')
 				ft_putvoid(va_arg(args, void *), &s, count); */
-	else if (**format == 'd' || 'i')
+	else if (**format == 'd' || **format == 'i')
 		ft_m_putnbr(va_arg(args, int), format, count);
 	else if (**format == 'u')
 		ft_putunsdecimal((unsigned int)va_arg(args, unsigned int), format,
 			count);
-	/*      else if (**format == 'x')
-				ft_puthexal(va_arg(args, int *), &s, &count); // What? and ???
-			else if (**format == 'X')
+	else if (**format == 'x')
+		ft_puthexal(va_arg(args, int), format, count);
+	/*		else if (**format == 'X')
 				ft_puthexau(va_arg(args, int *), &s, &count);
 					// What? and ??? */
 	else if (**format == '%')
@@ -64,7 +64,11 @@ int	main(void)
 {
 	int	resultado;
 
-	resultado = ft_printf("hello123%c56%s%%b%iabc,%u", 'a', "Hola", -42123, 5);
+	resultado = ft_printf("abc123%c123%s%%.%d%iabc%u%x\n", 'a', "Hola", -42, 123,
+			1, 9);
+	printf("\n%i\n", resultado);
+	resultado = printf("abc123%c123%s%%.%d%iabc%u%x\n", 'a', "Hola", -42, 123,
+			1, 9);
 	printf("\n%i", resultado);
 	return (0);
 }

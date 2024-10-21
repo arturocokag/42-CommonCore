@@ -6,7 +6,7 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 16:28:38 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/18 20:26:03 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:47:54 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ int		ft_m_putchar(char c, const char **format, int *count);
 int		ft_m_putnbr(int n, const char **format, int *count);
 int		ft_m_putstr(char *s, const char **format, int *count);
 int		ft_putunsdecimal(unsigned int n, const char **format, int *count);
+int	    ft_puthexal(int n, const char **format, int *count);
 
 #endif

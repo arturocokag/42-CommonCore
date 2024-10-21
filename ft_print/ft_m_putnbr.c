@@ -6,7 +6,7 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/13 19:32:58 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/18 20:27:15 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:57:49 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_m_putnbr(int n, const char **format, int *count)
 	c = (n % 10) + '0';
 	write(1, &c, 1);
 	(*count)++;
-	if (**format == 'i')
+	if (**format == 'i' || **format == 'd')
 		(*format)++;
 	return (*count);
 }
