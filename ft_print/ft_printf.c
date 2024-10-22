@@ -6,7 +6,7 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:42 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/21 19:28:28 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:14:23 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,15 @@ int	*ft_printf_helper(va_list args, const char **format, int *count)
 		ft_m_putchar((char)va_arg(args, int), format, count);
 	else if (**format == 's')
 		ft_m_putstr(va_arg(args, char *), format, count);
-	/*    else if (**format == 'p')
-				ft_putvoid(va_arg(args, void *), &s, count); */
+	else if (**format == 'p')
+		ft_putptr(va_arg(args, void *), format, count);
 	else if (**format == 'd' || **format == 'i')
 		ft_m_putnbr(va_arg(args, int), format, count);
 	else if (**format == 'u')
 		ft_putunsdecimal((unsigned int)va_arg(args, unsigned int), format,
 			count);
-	else if (**format == 'x')
-		ft_puthexal(va_arg(args, int), format, count);
-	/*		else if (**format == 'X')
-				ft_puthexau(va_arg(args, int *), &s, &count);
-					// What? and ??? */
+	else if (**format == 'x' || **format == 'X')
+		ft_puthex(va_arg(args, int), format, count);
 	else if (**format == '%')
 		ft_m_putchar('%', format, count);
 	return (count);
@@ -63,12 +60,13 @@ int	ft_printf(const char *format, ...)
 int	main(void)
 {
 	int	resultado;
+	int x = 42;
 
-	resultado = ft_printf("abc123%c123%s%%.%d%iabc%u%x\n", 'a', "Hola", -42, 123,
-			1, 9);
+	resultado = ft_printf("abc123%c123%s%%.%d%iabc%u%X%p\n", 'a', "Holasss", -42, 123,
+			1, 16, &x);
 	printf("\n%i\n", resultado);
-	resultado = printf("abc123%c123%s%%.%d%iabc%u%x\n", 'a', "Hola", -42, 123,
-			1, 9);
+	resultado = printf("abc123%c123%s%%.%d%iabc%u%X%p\n", 'a', "Holasss", -42, 123,
+			1, 16, &x);
 	printf("\n%i", resultado);
 	return (0);
 }
