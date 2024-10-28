@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putunsdecimal.c                                 :+:      :+:    :+:   */
+/*   ft_putptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 19:33:16 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/18 20:27:59 by acoka-re         ###   ########.fr       */
+/*   Created: 2024/10/13 19:33:19 by acoka-re          #+#    #+#             */
+/*   Updated: 2024/10/28 20:41:42 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_putunsdecimal(unsigned int n, const char **format, int *count)
+int	ft_putptr(void *ptr, const char **format, int *count)
 {
-	char	c;
+	unsigned long	address;
 
-	if (n > 9)
-		ft_putunsdecimal(n / 10, format, count);
-	c = (n % 10) + '0';
-	write(1, &c, 1);
-	(*count)++;
-	if (**format == 'u')
-		(*format)++;
+	address = (unsigned long)ptr;
+	if (ptr == NULL)
+	{
+		if (write(1, "(nil)", 5) != -1)
+		{
+			(*format)++;
+			*count += 5;
+		}
+		return (*count);
+	}
+	(*format)++;
+	if (write(1, "0x", 2) != -1)
+		*count += 2;
+	else
+		return (-1);
+	ft_puthex(address, format, count);
 	return (*count);
 }

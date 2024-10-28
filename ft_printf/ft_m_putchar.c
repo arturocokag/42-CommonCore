@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_m_putstr.c                                      :+:      :+:    :+:   */
+/*   ft_m_putchar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 19:33:01 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/18 20:27:27 by acoka-re         ###   ########.fr       */
+/*   Created: 2024/10/11 20:45:51 by acoka-re          #+#    #+#             */
+/*   Updated: 2024/10/28 17:09:03 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_m_putstr(char *s, const char **format, int *count)
+int	ft_m_putchar(char c, const char **format, int *count)
 {
-	while (*s)
-	{
-		write(1, s, 1);
-		s++;
-		(*count)++;
-	}
+	write(1, &c, 1);
+	(*count)++;
 	(*format)++;
 	return (*count);
 }

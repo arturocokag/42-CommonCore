@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_m_putnbr.c                                      :+:      :+:    :+:   */
+/*   ft_puthex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/13 19:32:58 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/21 16:57:49 by acoka-re         ###   ########.fr       */
+/*   Created: 2024/10/13 19:33:09 by acoka-re          #+#    #+#             */
+/*   Updated: 2024/10/28 20:40:04 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-int	ft_m_putnbr(int n, const char **format, int *count)
+int	ft_puthex(unsigned long n, const char **format, int *count)
 {
-	char	c;
+	char	*hex_base;
 
-	if (n == -2147483648)
-	{
-		write(1, "-2147483648", 11);
-		(*format)++;
-		return (*count += 11);
-	}
-	if (n < 0)
-	{
-		write(1, "-", 1);
+	hex_base = "0123456789abcdef";
+	if (**format == 'X')
+		hex_base = "0123456789ABCDEF";
+	if (n > 15)
+		ft_puthex((n / 16), format, count);
+	if (write(1, &hex_base[n % 16], 1) != -1)
 		(*count)++;
-		n = -n;
-	}
-	if (n > 9)
-		ft_m_putnbr(n / 10, format, count);
-	c = (n % 10) + '0';
-	write(1, &c, 1);
-	(*count)++;
-	if (**format == 'i' || **format == 'd')
+	if (**format == 'x' || **format == 'X')
 		(*format)++;
 	return (*count);
 }

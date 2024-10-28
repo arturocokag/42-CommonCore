@@ -6,15 +6,13 @@
 #    By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/11 16:11:02 by acoka-re          #+#    #+#              #
-#    Updated: 2024/10/21 18:47:51 by acoka-re         ###   ########.fr        #
+#    Updated: 2024/10/28 17:06:57 by acoka-re         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS =
-# Update
+SRCS = ft_printf.c ft_m_putchar.c ft_m_putnbr.c ft_m_putstr.c ft_puthex.c ft_putptr.c ft_putunsdecimal.c
 
 OBJS = $(SRCS:.c=.o)
-# Update
 
 cc = cc
 
@@ -23,22 +21,16 @@ CFLAGS = -Wall -Wextra -Werror
 NAME = libftprintf.a
 
 all: $(NAME)
-# Update
 
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS) 
-# Update
 
 clean:
 	rm -f $(OBJS)
-# Update
 
 fclean: clean
 	rm -f $(NAME)
-# Update
 
 re: fclean $(NAME)
-# Update
 
 .PHONY:  all clean fclean re
-# Update
