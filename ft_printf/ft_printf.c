@@ -6,53 +6,79 @@
 /*   By: acoka-re <acoka-re@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 21:53:42 by acoka-re          #+#    #+#             */
-/*   Updated: 2024/10/28 21:21:57 by acoka-re         ###   ########.fr       */
+/*   Updated: 2024/10/29 18:01:12 by acoka-re         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	*ft_printf_helper(va_list args, const char **format, int *count)
+char	*ft_strchr(const char *s, int c)
 {
-	(*format)++;
-	if (**format == 'c')
-		ft_m_putchar((char)va_arg(args, int), format, count);
-	else if (**format == 's')
-		ft_m_putstr(va_arg(args, char *), format, count);
-	else if (**format == 'p')
-		ft_putptr(va_arg(args, void *), format, count);
-	else if (**format == 'd' || **format == 'i')
-		ft_m_putnbr(va_arg(args, int), format, count);
-	else if (**format == 'u')
-		ft_putunsdecimal((unsigned int)va_arg(args, unsigned int), format,
-			count);
-	else if (**format == 'x' || **format == 'X')
-		ft_puthex((unsigned int)va_arg(args, unsigned int), format, count);
-	else if (**format == '%')
-		ft_m_putchar('%', format, count);
-	return (count);
+	int	i;
+
+	i = 0;
+	while (s[i] != '\0')
+	{
+		if ((unsigned char)s[i] == (unsigned char)c)
+		{
+			return ((char *)(s + i));
+		}
+		i++;
+	}
+	if ((unsigned char)c == '\0')
+		return ((char *)(s + i));
+	return (NULL);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_printf_helper(va_list args, const char fmt)
+{
+	void	*ptr;
+
+	if (fmt == 'c')
+		return (ft_m_putchar(va_arg(args, int)));
+	else if (fmt == 's')
+		return (ft_m_putstr(va_arg(args, char *)));
+	else if (fmt == 'p')
+		return (ft_putptr(va_arg(args, void *)));
+	else if (fmt == 'd' || fmt == 'i')
+		return (ft_m_putnbr(va_arg(args, int)));
+	else if (fmt == 'u')
+		return (ft_putunsdecimal(va_arg(args, unsigned int)));
+	else if (fmt == 'x' || fmt == 'X')
+		return (ft_puthex(va_arg(args, unsigned int), fmt));
+	else if (fmt == '%')
+		return (ft_m_putchar('%'));
+}
+
+int	ft_printf(const char *fmt, ...)
 {
 	va_list	args;
-	int		len;
+	int		length;
+	int		i;
 
-	len = 0;
-	va_start(args, format);
-	while (*format)
+	length = 0;
+	i = 0;
+	if (!fmt)
+		return (-1);
+	va_start(args);
+	while (fmt[i])
 	{
-		if (*format == '%')
-			ft_printf_helper(args, &format, &len);
-		else
+		if (fmt[i] == '%' && fmt[i + 1] && ft_strchr("cspdiuxX%", [i + 1]))
 		{
-			if (ft_m_putchar(*format, &format, &len) == -1)
-				return (-1);
+			length += ft_printf_helper(args, fmt[i + 1]);
+			i++;
 		}
+		else if (fmt[i] == '%' && \
+		(!ft_strchr("cspdiuxX%", fmt[i + 1]) || fmt[i + 1] == '\0'))
+			return (-1);
+		else
+			length += ft_m_putchar(fmt[i]);
+		i++;
 	}
 	va_end(args);
-	return (len);
+	return (length);
 }
+/*
 #include "ft_printf.h"
 #include <stdio.h>
 #include <string.h>
@@ -67,175 +93,162 @@ static void passt_da_des_eh(int a, int b)
 
 int main(void)
 {
-	char *format;
+	char;
 	char *string;
 	char character;
 	int num;
 	int lft;
 	int lorig;
-	// ft_printf(format, 1, 2, 3);
+	// ft_print, 1, 2, 3);
 
 	// PAUL TESTS
 
-	puts("=== Character: %c ===");
-	format = "%c\n";
+	puts("=== Character: %c ==="); = "%c\n";
 	character = 'A';
-	lft = ft_printf(format, character);
-	lorig = printf(format, character);
+	lft = ft_print, character);
+	lorig = print, character);
 	passt_da_des_eh(lft, lorig);
 	character = 'B';
-	lft = ft_printf(format, character);
-	lorig = printf(format, character);
+	lft = ft_print, character);
+	lorig = print, character);
 	passt_da_des_eh(lft, lorig);
 
-	puts("=== String: %s ===");
-	format = "%s\n";
+	puts("=== String: %s ==="); = "%s\n";
 	string = NULL;
-	lft = ft_printf(format, string);
-	lorig = printf(format, string);
+	lft = ft_print, string);
+	lorig = print, string);
 	passt_da_des_eh(lft, lorig);
 	string = "Hello I am a String";
-	lft = ft_printf(format, string);
-	lorig = printf(format, string);
+	lft = ft_print, string);
+	lorig = print, string);
 	passt_da_des_eh(lft, lorig);
 
-	puts("\n=== Integer: %d ===");
-	format = "%d\n";
+	puts("\n=== Integer: %d ==="); = "%d\n";
 	num = 0;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = 42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = -42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = 2147483647;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = -2147483648;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 
-	puts("\n=== Hexa lower-Cased: %x ===");
-	format = "%x\n";
+	puts("\n=== Hexa lower-Cased: %x ==="); = "%x\n";
 	num = 0;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = 42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = -42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = 2147483647;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = -2147483648;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 
-	puts("\n=== Hexa UPPER-CASED: %X ===");
-	format = "%X\n";
+	puts("\n=== Hexa UPPER-CASED: %X ==="); = "%X\n";
 	num = 0;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = 42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = -42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = 2147483647;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	num = -2147483648;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 
-	puts("\n=== Multiple-Options (%d%s%X) ===");
-	format = "%d%s%X\n";
+	puts("\n=== Multiple-Options (%d%s%X) ==="); = "%d%s%X\n";
 	string = ": ";
 	num = 0;
-	lft = ft_printf(format, num, string, num);
-	lorig = printf(format, num, string, num);
+	lft = ft_print, num, string, num);
+	lorig = print, num, string, num);
 	passt_da_des_eh(lft, lorig);
 	num = 42;
-	lft = ft_printf(format, num, string, num);
-	lorig = printf(format, num, string, num);
+	lft = ft_print, num, string, num);
+	lorig = print, num, string, num);
 	passt_da_des_eh(lft, lorig);
 	num = -42;
-	lft = ft_printf(format, num, string, num);
-	lorig = printf(format, num, string, num);
+	lft = ft_print, num, string, num);
+	lorig = print, num, string, num);
 	passt_da_des_eh(lft, lorig);
 	num = 2147483647;
-	lft = ft_printf(format, num, string, num);
-	lorig = printf(format, num, string, num);
+	lft = ft_print, num, string, num);
+	lorig = print, num, string, num);
 	passt_da_des_eh(lft, lorig);
 	num = -2147483648;
-	lft = ft_printf(format, num, string, num);
-	lorig = printf(format, num, string, num);
+	lft = ft_print, num, string, num);
+	lorig = print, num, string, num);
 	passt_da_des_eh(lft, lorig);
 
-	puts("\n=== Percent: %% ===");
-	format = "%%\n";
-	lft = ft_printf(format);
+	puts("\n=== Percent: %% ==="); = "%%\n";
+	lft = ft_print);
 	lorig = printf("%%\n");
 	passt_da_des_eh(lft, lorig);
 
-	puts("\n=== Pointer: %p ===");
-	format = "%p\n";
+	puts("\n=== Pointer: %p ==="); = "%p\n";
 	string = NULL;
-	lft = ft_printf(format, string);
-	lorig = printf(format, string);
+	lft = ft_print, string);
+	lorig = print, string);
 	passt_da_des_eh(lft, lorig);
 	string = "Im a pointer";
-	lft = ft_printf(format, string);
-	lorig = printf(format, string);
+	lft = ft_print, string);
+	lorig = print, string);
 	passt_da_des_eh(lft, lorig);
-	puts("\n=== Not supported Option and normal text: %y ===");
-	format = "Im not supported %y\n";
-	lft = ft_printf(format, string);
-	lorig = printf(format, string);
+	puts("\n=== Not supported Option and normal text: %y ==="); = "Im not supported %y\n";
+	lft = ft_print, string);
+	lorig = print, string);
 	passt_da_des_eh(lft, lorig);
-	puts("\n=== Custom Tests ===");
-	format = "%d%d\n";
+	puts("\n=== Custom Tests ==="); = "%d%d\n";
 	num = 42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
-	passt_da_des_eh(lft, lorig);
-	format = NULL;
+	lft = ft_print, num);
+	lorig = print, num);
+	passt_da_des_eh(lft, lorig); = NULL;
 	num = 42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
-	passt_da_des_eh(lft, lorig);
-	format = "%c %s %p %d %i %u %x %X %%\n";
+	lft = ft_print, num);
+	lorig = print, num);
+	passt_da_des_eh(lft, lorig); = "%c %s %p %d %i %u %x %X %%\n";
 	num = 42;
 	char c = '4';
 	string = "printf";
-	lft = ft_printf(format, c, string, string, num, num, num, num, num);
-	lorig = printf(format, c, string, string, num, num, num, num, num);
+	lft = ft_print, c, string, string, num, num, num, num, num);
+	lorig = print, c, string, string, num, num, num, num, num);
 	passt_da_des_eh(lft, lorig);
 
-	puts("\n === Check max Pointer ===");
-	format = "%p\n";
-	lft = ft_printf(format, 18446744073709551615ULL);
-	lorig = printf(format, 18446744073709551615ULL);
+	puts("\n === Check max Pointer ==="); = "%p\n";
+	lft = ft_print, 18446744073709551615ULL);
+	lorig = print, 18446744073709551615ULL);
 	passt_da_des_eh(lft, lorig);
 
 	// GREX TESTS
@@ -325,17 +338,16 @@ int main(void)
 
 	puts("test arg failures");
 	char *bla = "%d%d\n";
-	printf("strlen bla: %zu\n", strlen(bla));
-	format = "%d%d\n";
+	printf("strlen bla: %zu\n", strlen(bla)); = "%d%d\n";
 	num = 42;
-	lft = ft_printf(format, num);
-	lorig = printf(format, num);
+	lft = ft_print, num);
+	lorig = print, num);
 	passt_da_des_eh(lft, lorig);
 	lft = ft_printf(bla, num);
 	lorig = printf(bla, num);
 	passt_da_des_eh(lft, lorig);
-	lft = ft_printf(format, 42);
-	lorig = printf(format, 42);
+	lft = ft_print, 42);
+	lorig = print, 42);
 	passt_da_des_eh(lft, lorig);
 	lft = ft_printf(bla, 42);
 	lorig = printf(bla, 42);
@@ -368,11 +380,10 @@ int main(void)
 	printf("|\n");
 	lorig = printf("%w%w%d", 42);
 	printf("|\n");
-	passt_da_des_eh(lft, lorig);
-
-	/*for (int i = 0; i <= 256; i++)
-		ft_printf("%s\n", i + 256);*/
+	passt_da_des_eh(lft, lorig);	
 }
+*/
+
 /*
 int	main(void)
 {
@@ -404,12 +415,12 @@ Because	ft_putnbr(void) and ft_putstr() aren’t enough
 You have to implement the following conversions:
 • %c Prints a single character.
 • %s Prints a string (as defined by the common C convention).
-• %p The void * pointer argument has to be printed in hexadecimal format.
+• %p The void * pointer argument has to be printed in hexadecima.
 • %d Prints a decimal (base 10) number.
 • %i Prints an integer in base 10.
 • %u Prints an unsigned decimal (base 10) number.
-• %x Prints a number in hexadecimal (base 16) lowercase format.
-• %X Prints a number in hexadecimal (base 16) uppercase format.
+• %x Prints a number in hexadecimal (base 16) lowercas.
+• %X Prints a number in hexadecimal (base 16) uppercas.
 • %% Prints a percent sign.
 
 malloc, free, write,
